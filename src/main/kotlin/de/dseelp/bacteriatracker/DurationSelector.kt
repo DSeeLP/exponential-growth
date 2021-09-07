@@ -1,4 +1,4 @@
-package org.example
+package de.dseelp.bacteriatracker
 
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime

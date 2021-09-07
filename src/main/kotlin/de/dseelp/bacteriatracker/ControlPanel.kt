@@ -57,7 +57,7 @@ class ZoomSelector(steps: Int, val fromSpinner: JSpinner = JSpinner(SpinnerNumbe
         add(fromSpinner)
         add(toSpinner)
         val resetButton = JButton("Reset")
-        resetButton.addActionListener { refresh(steps) }
+        resetButton.addActionListener { refresh(this@ZoomSelector.steps) }
         add(resetButton)
     }
     fun refresh(steps: Int) {

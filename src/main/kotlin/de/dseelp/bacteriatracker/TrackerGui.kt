@@ -25,7 +25,7 @@ import kotlin.time.ExperimentalTime
 object TrackerGui : JFrame() {
     val yLabel = "Bacterias"
     val xLabel = "Times split"
-    val chartTite = "Bacterias"
+    val chartTite = ""
 
     val defaultDuration = hours(5)
     val defaultDurationSelector: DurationSelector = DurationSelector.Hours
@@ -35,9 +35,16 @@ object TrackerGui : JFrame() {
     private val dataset: DefaultCategoryDataset = DefaultCategoryDataset()
 
     val table = JTable().apply {
+        model = object : DefaultTableModel() {
+            override fun isCellEditable(row: Int, column: Int): Boolean {
+                return false
+            }
+        }
         val model = model as DefaultTableModel
         model.addColumn("Times split")
         model.addColumn("Bacterias")
+        model.addRow(arrayOf("Times split", "Bacterias"))
+        columnModel.getColumn(1).minWidth = 450
         fillsViewportHeight = true
     }
 
@@ -45,6 +52,7 @@ object TrackerGui : JFrame() {
         FlatLightLaf.setup()
         setSize(600, 500)
         name = "Bacterias"
+        title = "Bacterias"
 
 
         val tabView = JTabbedPane()
@@ -55,7 +63,9 @@ object TrackerGui : JFrame() {
         })
         tabView.add("Bar chart", ChartPanel(generateBarChart(dataset)))
         tabView.add("Line chart", ChartPanel(generateLineChart(dataset)))
-        tabView.add("Table", JScrollPane(generateTable()))
+        tabView.add("Table", JScrollPane(generateTable()).apply {
+
+        })
         add(tabView)
         defaultCloseOperation = EXIT_ON_CLOSE
         //pack()
@@ -114,7 +124,7 @@ object TrackerGui : JFrame() {
 
     fun refreshTable(data: Map<Long, BigInteger>) {
         val model = table.model as DefaultTableModel
-        model.rowCount = 0
+        model.rowCount = 1
         data.onEach {
             model.addRow(arrayOf(it.key.toString(), it.value.toString()))
         }
